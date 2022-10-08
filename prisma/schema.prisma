@@ -1,0 +1,51 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model bid {
+  bid_id     String    @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  item_id    String    @db.Uuid
+  bid_price  Decimal   @db.Decimal(10, 2)
+  buyer_id   String    @db.Uuid
+  created_at DateTime? @default(now()) @db.Timestamptz(6)
+  users      users     @relation(fields: [buyer_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction, map: "bid_user_fkey")
+  trade      trade?
+}
+
+model items {
+  item_id      String    @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  product_name String    @db.VarChar(255)
+  image_src    String?
+  description  String?
+  base_price   Decimal   @db.Decimal(10, 2)
+  seller_id    String    @db.Uuid
+  created_at   DateTime? @default(now()) @db.Timestamptz(6)
+  users        users     @relation(fields: [seller_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction, map: "items_user_fkey")
+  trade        trade?
+}
+
+model trade {
+  trade_id   String    @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  item_id    String    @unique(map: "trade_item_ukey") @db.Uuid
+  bid_id     String    @unique(map: "trade_bid_ukey") @db.Uuid
+  status     String?   @db.VarChar(20)
+  created_at DateTime? @default(now()) @db.Timestamptz(6)
+  updated_at DateTime? @db.Timestamptz(6)
+  bid        bid       @relation(fields: [bid_id], references: [bid_id], onDelete: NoAction, onUpdate: NoAction, map: "trage_bid_fkey")
+  items      items     @relation(fields: [item_id], references: [item_id], onDelete: NoAction, onUpdate: NoAction, map: "trage_items_fkey")
+}
+
+model users {
+  user_id    String   @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  username   String   @db.VarChar(30)
+  email_id   String   @unique(map: "email_id_ukey") @db.VarChar(60)
+  password   String   @db.VarChar(70)
+  created_at DateTime @default(now()) @db.Timestamptz(6)
+  bid        bid[]
+  items      items[]
+}
