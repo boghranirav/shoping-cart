@@ -1,0 +1,299 @@
+{
+	"info": {
+		"_postman_id": "ff93af98-79c2-40e8-959a-b4dcb443e3a7",
+		"name": "ShopCart",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "1. Register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\":\"sunita\",\n    \"email_id\":\"sunita@gmail.com\",\n    \"password\":\"sunita\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:4000/auth/register",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "2. Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email_id\":\"sunita@gmail.com\",\n    \"password\":\"sunita\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:4000/auth/login",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Shop",
+			"item": [
+				{
+					"name": "3. List New Item",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "product_name",
+									"value": "Apple",
+									"type": "default"
+								},
+								{
+									"key": "image_src",
+									"type": "file",
+									"src": "/Users/boghranirav/Documents/toddle/ER-Diagram.png"
+								},
+								{
+									"key": "description",
+									"value": "Test",
+									"type": "default"
+								},
+								{
+									"key": "base_price",
+									"value": "1",
+									"type": "default"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:4000/seller/list-item",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"seller",
+								"list-item"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "4. List Auction Items",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:4000/seller/get-auctions",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"seller",
+								"get-auctions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "5. Bid On Item",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"item_id\":\"dd81a538-94da-42f8-933f-b191e694d67a\",\n    \"bid_price\":3\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:4000/buyer/bid-on-item",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"buyer",
+								"bid-on-item"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "6. Select Bid Create Trade",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"bid_id\":\"63efcee1-1554-4288-b455-0bf436be7b72\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:4000/seller/select-bid",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"seller",
+								"select-bid"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "7. Update Trade Status By Seller",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"trade_id\":\"ca018c94-288f-4767-8f2d-69b7e2094468\",\n    \"status\":\"item packed\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:4000/seller/update-trade-status",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"seller",
+								"update-trade-status"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "8. Check Status Of Submited Bid",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:4000/buyer/get-bids",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"buyer",
+								"get-bids"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "9. Update Trade Status By Seller",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"trade_id\":\"ca018c94-288f-4767-8f2d-69b7e2094468\",\n    \"status\":\"item received\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:4000/buyer/update-trade-status",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"buyer",
+								"update-trade-status"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2ZWFkZGZlYy0zZGVkLTQ0YTYtYmY0Yi1jNDNkYmIyZTA2NjUiLCJpYXQiOjE2NjUzMDQwMjQsImV4cCI6MTY2NTMzMjgyNH0.O4DM3xdO0e5c0qjulp8zb9oMWqJGWR2ziXzsxWlDmQU",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		}
+	]
+}
