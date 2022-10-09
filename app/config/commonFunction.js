@@ -18,13 +18,39 @@ const responseData = (res, resHttpStatus, data, message) => {
   });
 };
 
+const responseDataFull = (res, params) => {
+  return res.status(params.statusCode).json({
+    ...params,
+  });
+};
+
 const responseError = (res, error = null, message = null) => {
   return res.status(httpStatus.INTERNAL_SERVER_ERROR.statusCode).json({
     ...httpStatus.INTERNAL_SERVER_ERROR,
     data: null,
     message: message != null ? message : "Internal Server Error",
-    error: typeof error === "object" ? [error.error || error.message] : [error],
+    error:
+      typeof error === "object" && error != null
+        ? [error.error || error.message]
+        : [error],
   });
+};
+
+const responseDataNoREST = (
+  resHttpStatus,
+  data = null,
+  message = "",
+  error = null
+) => {
+  return {
+    ...resHttpStatus,
+    data: data,
+    message: message,
+    error:
+      typeof error === "object" && error != null
+        ? [error.error || error.message]
+        : [error],
+  };
 };
 
 const isEmpty = (object) => {
@@ -45,4 +71,6 @@ module.exports = {
   responseInvalidArgs,
   isEmpty,
   getRandomFileName,
+  responseDataNoREST,
+  responseDataFull,
 };

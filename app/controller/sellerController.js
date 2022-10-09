@@ -5,6 +5,9 @@ const {
 } = require("../config/commonFunction");
 var formidable = require("formidable");
 const { createNewItem } = require("../business-logic/seller/createNewItem");
+const { getAuctionList } = require("../business-logic/seller/getAuctionList");
+const { createNewTrade } = require("../business-logic/seller/createTrade");
+const { updateTrade } = require("../business-logic/seller/updateTrade");
 
 const createItem = async (req, res, _next) => {
   try {
@@ -29,19 +32,7 @@ const createItem = async (req, res, _next) => {
 
 const getAuction = async (req, res, _next) => {
   try {
-    const validation = Joi.object({
-      email_id: Joi.string()
-        .min(4)
-        .max(60)
-        .email({ tlds: { allow: false } }),
-      password: Joi.string().min(4).max(30).required(),
-    });
-    const response = validation.validate(req.body);
-    if (response.error) {
-      return responseInvalidArgs(res, response);
-    }
-
-    // return await validateUserLogin(req, res);
+    return await getAuctionList(req, res);
   } catch (error) {
     responseError(res, error);
   }
@@ -50,18 +41,13 @@ const getAuction = async (req, res, _next) => {
 const createTrade = async (req, res, _next) => {
   try {
     const validation = Joi.object({
-      email_id: Joi.string()
-        .min(4)
-        .max(60)
-        .email({ tlds: { allow: false } }),
-      password: Joi.string().min(4).max(30).required(),
+      bid_id: Joi.string().uuid().required(),
     });
     const response = validation.validate(req.body);
     if (response.error) {
       return responseInvalidArgs(res, response);
     }
-
-    // return await validateUserLogin(req, res);
+    return await createNewTrade(req, res);
   } catch (error) {
     responseError(res, error);
   }
@@ -70,18 +56,23 @@ const createTrade = async (req, res, _next) => {
 const updateTradeStatus = async (req, res, _next) => {
   try {
     const validation = Joi.object({
-      email_id: Joi.string()
-        .min(4)
-        .max(60)
-        .email({ tlds: { allow: false } }),
-      password: Joi.string().min(4).max(30).required(),
+      trade_id: Joi.string().uuid().required(),
+      status: Joi.string()
+        .required()
+        .valid(
+          "payment received",
+          "item packed",
+          "item shipped",
+          "item received",
+          "trade complete"
+        ),
     });
     const response = validation.validate(req.body);
     if (response.error) {
       return responseInvalidArgs(res, response);
     }
 
-    // return await validateUserLogin(req, res);
+    return await updateTrade(req, res);
   } catch (error) {
     responseError(res, error);
   }
